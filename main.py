@@ -36,7 +36,10 @@ window.resizable(False, False)
 score = 0
 direction = 'down'
 
-label = Label(window, text="Score:{}".format(score), font=('conslas', 40))
+label = Label(window, text="Score:{}".format(score), font=('conslas', 20))
 label.pack()
+
+canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
+canvas.pack()
 
 window.mainloop()
