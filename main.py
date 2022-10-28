@@ -10,6 +10,7 @@ SNAKE_COLOR = '#00FF00'
 FOOD_COLOR = '#FF0000'
 BACKGROUND_COLOR = '#000000'
 
+# snake
 class Snake:
     def __init__(self):
         self.body_size = BODY_PARTS
@@ -23,6 +24,7 @@ class Snake:
             square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tags="snake")
             self.squares.append(square)
 
+# food
 class Food:
     def __init__(self):
 
@@ -33,6 +35,7 @@ class Food:
 
         canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tags="food")
 
+# snake movement function
 def next_turn(snake, food):
     x, y = snake.coordinates[0]
 
@@ -49,13 +52,16 @@ def next_turn(snake, food):
         x += SPACE_SIZE
 
     snake.coordinates.insert(0, (x, y))
-
     square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
-
     snake.squares.insert(0, square)
+
+    del snake.coordinates[-1]
+    canvas.delete(snake.squares[-1])
+    del snake.squares[-1]
 
     window.after(SPEED, next_turn, snake, food)
 
+# direction function
 def change_direction(new_direction):
     pass
 
@@ -65,7 +71,7 @@ def check_collisions():
 def game_over():
     pass
 
-
+# create window
 window = Tk()
 window.title("Snake Game")
 window.resizable(False, False)
@@ -81,6 +87,7 @@ canvas.pack()
 
 window.update()
 
+# window position
 window_width = window.winfo_width()
 window_height = window.winfo_height()
 screen_width = window.winfo_screenwidth()
@@ -91,6 +98,13 @@ y = int((screen_height/2) - (window_height/2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
+# key access event
+window.bind('<Left>', lambda event: change_direction('left'))
+window.bind('<Right>', lambda event: change_direction('right'))
+window.bind('<Up>', lambda event: change_direction('up'))
+window.bind('<Down>', lambda event: change_direction('down'))
+
+# function call
 snake = Snake()
 food = Food()
 
