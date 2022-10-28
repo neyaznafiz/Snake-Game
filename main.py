@@ -1,11 +1,11 @@
 from tkinter import *
 import random
 
-GAME_WIDTH = 700
+GAME_WIDTH = 1000
 GAME_HEIGHT = 700
-SPEED = 200
-SPACE_SIZE = 50
-BODY_PARTS = 10
+SPEED = 70
+SPACE_SIZE = 20
+BODY_PARTS = 3
 SNAKE_COLOR = '#00FF00'
 FOOD_COLOR = '#FF0000'
 BACKGROUND_COLOR = '#000000'
@@ -61,7 +61,7 @@ def next_turn(snake, food):
         global score
         score += 1
 
-        label.config(text="Score:{}".format(score))
+        label.config(text="SCORE:{}".format(score))
 
         canvas.delete("food")
 
@@ -115,7 +115,9 @@ def check_collisions(snake):
     return False
 
 def game_over():
-    pass
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
+                       font=('consolas', 70), text="GAME OVER", fill="red", tags="gameover")
 
 
 # create window
@@ -126,7 +128,7 @@ window.resizable(False, False)
 score = 0
 direction = 'down'
 
-label = Label(window, text="Score:{}".format(score), font=('conslas', 20))
+label = Label(window, text="SCORE:{}".format(score), font=('conslas', 20))
 label.pack()
 
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
