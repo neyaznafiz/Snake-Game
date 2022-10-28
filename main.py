@@ -5,7 +5,7 @@ GAME_WIDTH = 700
 GAME_HEIGHT = 700
 SPEED = 200
 SPACE_SIZE = 50
-BODY_PARTS = 3
+BODY_PARTS = 10
 SNAKE_COLOR = '#00FF00'
 FOOD_COLOR = '#FF0000'
 BACKGROUND_COLOR = '#000000'
@@ -57,11 +57,26 @@ def next_turn(snake, food):
     square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
     snake.squares.insert(0, square)
 
-    del snake.coordinates[-1]
-    canvas.delete(snake.squares[-1])
-    del snake.squares[-1]
+    if x == food.coordinates[0] and y == food.coordinates[1]:
+        global score
+        score += 1
 
-    window.after(SPEED, next_turn, snake, food)
+        label.config(text="Score:{}".format(score))
+
+        canvas.delete("food")
+
+        food = Food()
+
+    else:
+        del snake.coordinates[-1]
+        canvas.delete(snake.squares[-1])
+        del snake.squares[-1]
+
+    if check_collisions(snake):
+        game_over()
+
+    else:
+        window.after(SPEED, next_turn, snake, food)
 
 
 # direction function
@@ -82,9 +97,22 @@ def change_direction(new_direction):
             direction = new_direction
 
 
-def check_collisions():
-    pass
+# function for game stop when touch body or border
+def check_collisions(snake):
 
+    x, y = snake.coordinates[0]
+
+    if x < 0 or x >= GAME_WIDTH:
+        return True
+    elif y < 0 or y >= GAME_HEIGHT:
+        return True
+
+    for body_part in snake.coordinates[1:]:
+        if x == body_part[0] and y == body_part[1]:
+            print('game over')
+            return True
+
+    return False
 
 def game_over():
     pass
