@@ -3,12 +3,13 @@ import random
 
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
-SPEED = 50
+SPEED = 200
 SPACE_SIZE = 50
 BODY_PARTS = 3
 SNAKE_COLOR = '#00FF00'
 FOOD_COLOR = '#FF0000'
 BACKGROUND_COLOR = '#000000'
+
 
 # snake
 class Snake:
@@ -24,16 +25,17 @@ class Snake:
             square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tags="snake")
             self.squares.append(square)
 
+
 # food
 class Food:
     def __init__(self):
-
-        x = random.randint(0, int(GAME_WIDTH / SPACE_SIZE)-1) * SPACE_SIZE
-        y = random.randint(0, int(GAME_HEIGHT / SPACE_SIZE)-1) * SPACE_SIZE
+        x = random.randint(0, int(GAME_WIDTH / SPACE_SIZE) - 1) * SPACE_SIZE
+        y = random.randint(0, int(GAME_HEIGHT / SPACE_SIZE) - 1) * SPACE_SIZE
 
         self.coordinates = [x, y]
 
         canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tags="food")
+
 
 # snake movement function
 def next_turn(snake, food):
@@ -61,15 +63,32 @@ def next_turn(snake, food):
 
     window.after(SPEED, next_turn, snake, food)
 
+
 # direction function
 def change_direction(new_direction):
-    pass
+    global direction
+
+    if new_direction == 'left':
+        if direction != 'right':
+            direction = new_direction
+    elif new_direction == 'right':
+        if direction != 'left':
+            direction = new_direction
+    elif new_direction == 'up':
+        if direction != 'down':
+            direction = new_direction
+    elif new_direction == 'down':
+        if direction != 'up':
+            direction = new_direction
+
 
 def check_collisions():
     pass
 
+
 def game_over():
     pass
+
 
 # create window
 window = Tk()
@@ -93,8 +112,8 @@ window_height = window.winfo_height()
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
 
-x = int((screen_width/2) - (window_width/2))
-y = int((screen_height/2) - (window_height/2))
+x = int((screen_width / 2) - (window_width / 2))
+y = int((screen_height / 2) - (window_height / 2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
