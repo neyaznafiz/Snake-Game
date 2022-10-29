@@ -3,9 +3,9 @@ import random
 
 GAME_WIDTH = 1300
 GAME_HEIGHT = 900
-SPEED = 100
+SPEED = 80
 SPACE_SIZE = 25
-BODY_PARTS = 3
+BODY_PARTS = 4
 SNAKE_COLOR = '#00FF00'
 FOOD_COLOR = '#FF0000'
 BACKGROUND_COLOR = '#000000'
@@ -109,7 +109,6 @@ def check_collisions(snake):
 
     for body_part in snake.coordinates[1:]:
         if x == body_part[0] and y == body_part[1]:
-            print('game over')
             return True
 
     return False
@@ -117,7 +116,7 @@ def check_collisions(snake):
 def game_over():
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
-                       font=('consolas', 70), text="GAME OVER", fill="red", tags="gameover")
+                       font=('consolas', 70), text='GAME OVER', fill='red', tags='gameover')
 
 
 # create window
